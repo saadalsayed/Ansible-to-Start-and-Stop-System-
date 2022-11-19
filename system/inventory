@@ -1,10 +1,10 @@
 [weblogic]
-10.140.173.12 ansible_user=weblogic ansible_ssh_pass=weblogic123
+weblogic
 [test-server]
-10.140.173.14 ansible_user=root ansible_ssh_pass=root123
+test-server
 [nginx]
-172.16.88.7 ansible_user=root  ansible_ssh_pass=123456
+nginx-1
 [mw]
-10.140.173.20 ansible_user=root  ansible_ssh_pass=root123
+middleware1
 [feapp]
-10.140.173.12 ansible_user=svfe  ansible_ssh_pass=svfe1
+frontednapp
