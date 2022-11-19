@@ -1,0 +1,38 @@
+---
+- name : start mw Bundle 
+  hosts: mw
+  gather_facts : false
+  vars_files : 
+   -  /root/system/vars/mwbundle.yml  
+    
+  tasks: 
+  - name : run stop {{ bundle_id}}
+    shell: /home/fuse/fuse-6.2.1/bin/client -r 3 -d 10 -u admin -p admin 'osgi:stop "{{ item }}"'
+
+    with_items:
+        -  380
+        -  381
+        -  382
+    when :  stop 
+  - debug: msg="{{stop}}"
+
+  - name : run refresh {{bundle_id}}
+    shell: /home/fuse/fuse-6.2.1/bin/client -r 3 -d 10 -u admin -p admin 'osgi:refresh "{{bundle_id}}" '
+    when : refresh
+  - debug: msg="{{refresh}}"
+
+  - name : run update {{bundel_id}}
+    shell: /home/fuse/fuse-6.2.1/bin/client -r 3 -d 10 -u admin -p admin 'osgi:update "{{bundle_id}}" '
+    when : update
+  - debug: msg="update"
+
+  - name : run start {{ bundle_id }}
+    shell: /home/fuse/fuse-6.2.1/bin/client -r 3 -d 10 -u admin -p admin 'osgi:start "{{ item }}" '
+    with_items:
+        -  380
+        -  381
+        -  382
+    when : start
+  - debug: msg="{{start}}"
+  
+...

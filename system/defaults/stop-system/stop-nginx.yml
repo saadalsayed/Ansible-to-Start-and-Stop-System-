@@ -1,0 +1,13 @@
+---
+- name : stop nginx 
+  hosts: nginx
+  tasks: 
+  - name : get nginx process id 
+    shell : ps aux | grep "{{ process }}"  | grep -v grep |awk '{print $2}'
+    register : process_id
+  - debug: msg="{{process_id.stdout}}" 
+
+  - name : stop nginx
+    shell:  killall nginx 
+    when : process_id.stdout != "" 
+...

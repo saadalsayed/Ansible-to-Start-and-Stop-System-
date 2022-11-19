@@ -1,0 +1,17 @@
+---
+- name : start nginx 
+  hosts: nginx
+  vars: 
+     process : nginx 
+  tasks: 
+  - name : get nginx process id 
+    shell : ps aux | grep "{{ process }}"  | grep -v grep |awk '{print $2}'
+    register : process_id
+  - debug: msg="{{process_id.stdout}}" 
+
+  - name : start nginx
+    service:
+       name: nginx 
+       state: started
+    when : process_id.stdout == "" 
+...

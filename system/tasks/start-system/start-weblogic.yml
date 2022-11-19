@@ -1,0 +1,9 @@
+---
+- name : start weblogic 
+  hosts : weblogic
+  tasks : 
+  - name : start weblogic service
+    shell : /etc/init.d/wls stop && /etc/init.d/wls start
+    become: true 
+    become_user: weblogic 
+...

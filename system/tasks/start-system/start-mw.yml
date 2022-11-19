@@ -1,0 +1,27 @@
+---
+- name : start middleware 
+  hosts: mw
+  gather_facts: false
+  vars: 
+      process: karaf
+      activemq: activemq
+  tasks: 
+  - name : get fuse process id 
+    shell : ps aux | grep "{{ process }}"  | grep -v grep |awk '{print $2}'
+    register : process_id
+  - debug: msg="{{process_id.stdout}}"
+
+  - name : start fuse(MW)
+    shell: cd  /home/fuse/fuse-6.2.1/bin && nohup ./fuse server &
+    when : process_id.stdout == "" 
+
+  - name : get activemq process id 
+    shell : ps aux | grep "{{ activemq }}"  | grep -v grep |awk '{print $2}'
+    register : activemq_id
+  - debug: msg="{{activemq_id.stdout}}"
+
+ 
+  - name : start activemq
+    shell : cd /root/apache-activemq-5.11.0/bin && nohup ./activemq start &
+    when : activemq_id.stdout == "" 
+...

@@ -1,0 +1,17 @@
+---
+- name : start mw Bundle 
+  hosts: mw
+  vars_files : 
+   -  /root/system/vars/mwbundle.yml  
+    
+  tasks: 
+  - name : run start-feapp script
+    shell: /home/fuse/fuse-6.2.1/bin/client -r 3 -d 10 -u admin -p admin 'osgi:stop "{{bundle_id}}" '
+#    shell : ps aux | grep "{{ process }}"  | grep -v grep |awk '{print $2}'
+#    register : process_id
+#  - debug: msg="{{process_id.stdout}}" 
+
+#  - name : start mms
+#    shell:  cd /home/fuse/MMS/ &&   nohup /home/fuse/java/jdk1.8.0_144/bin/java -jar /home/fuse/MMS/mms-1.0.jar &
+#    when : process_id.stdout == "" 
+...

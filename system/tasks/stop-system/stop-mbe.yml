@@ -1,0 +1,16 @@
+---
+- name : stop  mbe
+  hosts: test-server
+  gather_facts: false 
+  vars:
+      process: tomcat
+  tasks:
+  - name :
+    shell : ps aux | grep "{{ process }}"  | grep -v grep |awk '{print $2}'
+    register : process_id
+  - debug: msg="{{process_id.stdout}}"
+ 
+  - name : stop mbe (apache tomcat) 
+    shell: cd /home/fuse/apache-tomcat-8.5.16/bin/ && ./shutdown.sh      
+    when:  process_id.stdout != ""
+...

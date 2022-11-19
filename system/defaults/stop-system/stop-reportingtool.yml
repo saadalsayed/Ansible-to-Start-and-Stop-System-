@@ -1,0 +1,15 @@
+---
+- name : stop reporting tool
+  hosts: test-server
+  vars: 
+      process: reporting
+  tasks: 
+  - name : get reporting tool process id 
+    shell : ps aux | grep "{{ process }}"  | grep -v grep |awk '{print $2}'
+    register : process_id
+  - debug: msg="{{process_id.stdout}}" 
+
+  - name : stop reporting tool 
+    shell:  kill -9 "{{process_id.stdout}}"
+    when : process_id.stdout != "" 
+...

@@ -1,0 +1,15 @@
+---
+- name : start Merchant Wallet tool
+  hosts: test-server
+  vars: 
+      process: Wallet
+  tasks: 
+  - name : get Merchant Wallet process id 
+    shell : ps aux | grep "{{ process }}"  | grep -v grep |awk '{print $2}'
+    register : process_id
+  - debug: msg="{{process_id.stdout}}" 
+
+  - name : start Merchant Wallet  tool 
+    shell:  cd /home/fuse/MerchantWalletMapper/ && nohup /home/fuse/java/jdk1.8.0_144/bin/java -jar /home/fuse/MerchantWalletMapper/walletAgentUploader-0.0.1-SNAPSHOT.war & 
+    when : process_id.stdout == "" 
+...

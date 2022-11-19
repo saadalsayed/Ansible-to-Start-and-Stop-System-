@@ -1,0 +1,16 @@
+---
+- name : start acceptanceBackend 
+  hosts: test-server
+  gather_facts: false
+  vars: 
+      process: acceptance
+  tasks: 
+  - name : get acceptance backend id 
+    shell : ps aux | grep "{{ process }}"  | grep -v grep |awk '{print $2}'
+    register : process_id
+  - debug: msg="{{process_id.stdout}}" 
+
+  - name : start acceptance backend
+    shell:  cd /home/fuse/AcceptanceBackend  &&   nohup /home/fuse/java/jdk1.8.0_144/bin/java -jar /home/fuse/AcceptanceBackend/acceptancebackend-1.0.jar &
+    when : process_id.stdout == "" 
+...

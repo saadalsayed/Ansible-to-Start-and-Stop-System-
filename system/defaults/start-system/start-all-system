@@ -1,0 +1,28 @@
+---
+- name: start 
+  include: start-feapp.yml
+
+- name: start Weblogic 
+  include: start-weblogic.yml
+
+- name: start mw
+  include: start-mw.yml
+
+- name: start mbe
+  include: start-mbe.yml
+
+- name: start nginx 
+  include: start-nginx.yml
+
+- name: start merchant tool
+  include: start-merchantwalletmapper.yml
+
+- name: start vouchertool
+  include: start-vouchertool.yml
+
+- name: start pcms 
+  include: start-pcms.yml
+
+- name: reportingtool
+  include: start-reportingtool.yml
+...

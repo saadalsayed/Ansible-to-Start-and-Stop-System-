@@ -1,0 +1,17 @@
+---
+- name : start voucher tool
+  hosts: test-server
+  gather_facts : false
+  vars: 
+      process: vouchers
+
+  tasks: 
+  - name : get voucher tool process id 
+    shell : ps aux | grep "{{ process }}"  | grep -v grep |awk '{print $2}'
+    register : process_id
+  - debug: msg="{{process_id.stdout}}" 
+
+  - name : start voucher tool 
+    shell:  cd /home/fuse/amanvoucher && nohup /home/fuse/java/jdk1.8.0_144/bin/java -jar vouchers-1.0.1-SNAPSHOT.jar & 
+    when : process_id.stdout == "" 
+...

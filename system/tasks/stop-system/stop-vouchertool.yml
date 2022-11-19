@@ -1,0 +1,15 @@
+---
+- name : start voucher tool
+  hosts: test-server
+  vars: 
+      process: vouchers
+  tasks: 
+  - name : et voucher tool process id 
+    shell : ps aux | grep "{{ process }}"  | grep -v grep |awk '{print $2}'
+    register : process_id
+  - debug: msg="{{process_id.stdout}}" 
+
+  - name : start voucher tool 
+    shell: kill -9 "{{process_id.stdout}}" 
+    when : process_id.stdout != "" 
+...

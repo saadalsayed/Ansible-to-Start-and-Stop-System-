@@ -1,0 +1,8 @@
+---
+#insert mw name here
+stop: false
+start: true
+update: false
+refresh: false
+
+bundle_id : 380 381 382

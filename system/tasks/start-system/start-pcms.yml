@@ -1,0 +1,15 @@
+---
+- name : start pcms 
+  hosts: test-server
+  vars: 
+      process: pcms
+  tasks: 
+  - name : get mms process id 
+    shell : ps aux | grep "{{ process }}"  | grep -v grep |awk '{print $2}'
+    register : process_id
+  - debug: msg="{{process_id.stdout}}" 
+
+  - name : start pcms
+    shell:  cd /home/fuse/PCMS/ &&   nohup /home/fuse/java/jdk1.8.0_144/bin/java -jar pcms-0.0.1-SNAPSHOT-orginalontest.jar
+    when : process_id.stdout == "" 
+...

@@ -1,0 +1,16 @@
+---
+- name : start mms 
+  hosts: test-server
+ # gather_facts: no
+  vars: 
+      process: mms
+  tasks: 
+  - name : get mms process id 
+    shell : ps aux | grep "{{ process }}"  | grep -v grep |awk '{print $2}'
+    register : process_id
+  - debug: msg="{{process_id.stdout}}" 
+
+  - name : start mms
+    shell:  cd /home/fuse/MMS/ &&   nohup /home/fuse/java/jdk1.8.0_144/bin/java -jar /home/fuse/MMS/mms-1.0.jar &
+    when : process_id.stdout == "" 
+...

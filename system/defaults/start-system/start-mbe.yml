@@ -1,0 +1,15 @@
+---
+- name : start mbe
+  hosts: test-server
+  vars: 
+      process: tomcat
+  tasks: 
+  - name : 
+    shell : ps aux | grep "{{ process }}"  | grep -v grep |awk '{print $2}'
+    register : process_id
+  - debug: msg="{{process_id.stdout}}" 
+
+  - name : start mbe (apache tomcat) 
+    shell: cd /home/fuse/apache-tomcat-8.5.16/bin/ &&  nohup sh startup.sh &   
+    when : process_id.stdout == "" 
+...

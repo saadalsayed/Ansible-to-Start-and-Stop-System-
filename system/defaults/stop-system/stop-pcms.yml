@@ -1,0 +1,15 @@
+---
+- name : stop pcms 
+  hosts: test-server
+  vars: 
+      process: pcms
+  tasks: 
+  - name : get mms process id 
+    shell : ps aux | grep "{{ process }}"  | grep -v grep |awk '{print $2}'
+    register : process_id
+  - debug: msg="{{process_id.stdout}}" 
+
+  - name : stop pcms
+    shell:  kill -9 "{{process_id.stdout}}"
+    when : process_id.stdout != "" 
+...

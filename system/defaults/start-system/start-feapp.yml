@@ -1,0 +1,8 @@
+---
+- name : start feapp 
+  hosts: feapp
+  tasks: 
+  - name : run start-feapp script
+  #  shell: /home/svfe/start-feapp/start-feapp.sh
+    shell: tpstat
+...

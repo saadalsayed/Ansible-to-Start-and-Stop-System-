@@ -1,0 +1,27 @@
+---
+- name : stop middleware && activemq
+  hosts: mw
+  gather_facts: false
+  vars: 
+      process: karaf
+      activemq: activemq
+  tasks: 
+  - name : get fuse process id 
+    shell : ps aux | grep "{{ process }}"  | grep -v grep |awk '{print $2}'
+    register : process_id
+  - debug: msg="{{process_id.stdout}}"
+
+  - name : start fuse(MW)
+    shell: kill -9 "{{ process_id.stdout }}"
+    when : process_id.stdout != "" 
+
+  - name : get activemq process id 
+    shell : ps aux | grep "{{ activemq }}"  | grep -v grep |awk '{print $2}'
+    register : activemq_id
+  - debug: msg="{{activemq_id.stdout}}"
+
+ 
+  - name : stop activemq
+    shell : kill -9 "{{activemq_id.stdout}}"
+    when : activemq_id.stdout != "" 
+...
