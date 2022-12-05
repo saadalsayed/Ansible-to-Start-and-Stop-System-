@@ -7,7 +7,7 @@
     
   tasks: 
   - name : run stop {{ bundle_id}}
-    shell: /home/fuse/fuse-6.2.1/bin/client -r 3 -d 10 -u admin -p {{ pass }} 'osgi:stop "{{ item }}"'
+    shell: /home/fuse/fuse-6.2.1/bin/client -r 3 -d 10 -u {{ user }} -p {{ pass }} 'osgi:stop "{{ item }}"'
 
     with_items:
         -  380
@@ -17,17 +17,17 @@
   - debug: msg="{{stop}}"
 
   - name : run refresh {{bundle_id}}
-    shell: /home/fuse/fuse-6.2.1/bin/client -r 3 -d 10 -u admin  {{ pass }}  'osgi:refresh "{{bundle_id}}" '
+    shell: /home/fuse/fuse-6.2.1/bin/client -r 3 -d 10 -u  {{ user }}  {{ pass }}  'osgi:refresh "{{bundle_id}}" '
     when : refresh
   - debug: msg="{{refresh}}"
 
   - name : run update {{bundel_id}}
-    shell: /home/fuse/fuse-6.2.1/bin/client -r 3 -d 10 -u admin -p {{ pass }}  'osgi:update "{{bundle_id}}" '
+    shell: /home/fuse/fuse-6.2.1/bin/client -r 3 -d 10 -u  {{ user }} -p {{ pass }}  'osgi:update "{{bundle_id}}" '
     when : update
   - debug: msg="update"
 
   - name : run start {{ bundle_id }}
-    shell: /home/fuse/fuse-6.2.1/bin/client -r 3 -d 10 -u admin -p {{ pass }}  'osgi:start "{{ item }}" '
+    shell: /home/fuse/fuse-6.2.1/bin/client -r 3 -d 10 -u  {{ user }} -p {{ pass }}  'osgi:start "{{ item }}" '
     with_items:
         -  380
         -  381
